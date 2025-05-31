@@ -1,41 +1,20 @@
-[project]
+[tool.poetry]
 name = "s-kaupat-scraper"
 version = "0.1.0"
-description = "Web scraper for s-kaupat.fi that extracts store and product data and loads it into Google BigQuery"
-authors = [
-    {name = "Harri Juntunen", email = "harri@juntunen.ai"}
-]
+description = "Scrape s-kaupat.fi → BigQuery"
+authors = ["Harri Juntunen <harri@juntunen.ai>"]
 readme = "README.md"
-requires-python = ">=3.11"
-dependencies = [
-    "requests>=2.31.0",
-    "beautifulsoup4>=4.12.0",
-    "lxml>=4.9.0",
-    "google-cloud-bigquery>=3.11.0",
-    "pandas>=2.0.0",
-    "python-dotenv>=1.0.0",
-    "loguru>=0.7.0",
-    "aiohttp>=3.8.0",
-    "asyncio>=3.4.3",
-    "click>=8.1.0",
-    "pydantic>=2.0.0",
-    "tenacity>=8.2.0"
-]
+packages = [{include = "scraper"}, {include = "loader"}]
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.4.0",
-    "pytest-asyncio>=0.21.0",
-    "black>=23.0.0",
-    "flake8>=6.0.0",
-    "mypy>=1.5.0",
-    "pre-commit>=3.3.0"
-]
+[tool.poetry.dependencies]
+python = "^3.12"
 
-[project.scripts]
-s-kaupat-scraper = "src.main:main"
-
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-asyncio = "^0.21.0"
+black = "^23.0.0"
+mypy = "^1.5.0"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
