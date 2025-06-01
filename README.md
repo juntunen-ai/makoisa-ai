@@ -247,7 +247,9 @@ curl "https://your-service.run.app/bigquery/query?city=Helsinki&limit=10"
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This code is released under the [PolyForm Noncommercial License 1.0.0](./LICENSE).  
+**Commercial use requires a separate agreement.**  
+Contact <vihreamies.juntunen@gmail.com> for enquiries.
 
 ## Acknowledgments
 
