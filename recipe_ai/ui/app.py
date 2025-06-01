@@ -6,6 +6,18 @@ import logging
 from typing import Dict, Any, List
 import sys
 import os
+from pathlib import Path
+
+# Load environment variables from recipe_ai/.env file before importing modules
+env_file = Path(__file__).parent.parent / '.env'
+if env_file.exists():
+    with open(env_file) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                key, value = line.split('=', 1)
+                # Force override environment variables from .env file
+                os.environ[key.strip()] = value.strip()
 
 # Add the parent directory to the path so we can import recipe_ai
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -83,7 +95,7 @@ class RecipeApp:
     
     def _initialize_generator(self):
         """Initialize the recipe generator with error handling."""
-        if st.session_state.generator_initialized:
+        if st.session_state.generator_initialized and self.generator is not None:
             return True
             
         try:
@@ -95,12 +107,18 @@ class RecipeApp:
         except Exception as e:
             st.error(f"Virhe alustettaessa generaattoria: {e}")
             st.error("Tarkista Google Cloud -asetukset ja yritä uudelleen.")
+            
+            # Add retry button
+            if st.button("🔄 Yritä uudelleen"):
+                st.session_state.generator_initialized = False
+                st.rerun()
+                
             return False
     
     def run(self):
         """Run the main application."""
         st.title("🍳 AI Reseptigeneraattori")
-        st.markdown("**Luo herkullisia reseptejä tekoälyn avulla ja löydä ainesosat S-kaupoista!**")
+        st.markdown("**Luo herkullisia reseptejä tekoälyn avulla ja löydä ainesosat suomalaisista ruokakaupoista!**")
         
         # Sidebar for settings and navigation
         self._render_sidebar()
@@ -166,7 +184,7 @@ class RecipeApp:
         Tämä sovellus käyttää:
         - **Vertex AI** reseptien luomiseen
         - **BigQuery** hintatietojen hakuun
-        - **S-kaupat** tuotetietokantaa
+        - **Tuotetietokantaa** ainesosien löytämiseen
         
         Kehittäjä: Harri Juntunen
         """)
@@ -214,6 +232,11 @@ class RecipeApp:
     
     def _generate_recipe(self, user_prompt: str, quick_mode: bool, servings: int):
         """Generate a recipe based on user input."""
+        # Check if generator is properly initialized
+        if self.generator is None:
+            st.error("AI-reseptigeneraattori ei ole käytettävissä. Tarkista asetukset ja lataa sivu uudelleen.")
+            return
+            
         try:
             with st.spinner("Luon reseptiä... ⏳"):
                 
@@ -388,6 +411,10 @@ class RecipeApp:
         if not st.session_state.current_recipe:
             st.info("🛒 Valitse ensin resepti ostoslistan luomiseksi.")
             return
+            
+        if self.generator is None:
+            st.error("AI-reseptigeneraattori ei ole käytettävissä.")
+            return
         
         st.header("🛒 Ostoslista")
         
@@ -488,6 +515,10 @@ class RecipeApp:
     
     def _save_recipe(self, recipe: Dict[str, Any]):
         """Save recipe to file."""
+        if self.generator is None:
+            st.error("AI-reseptigeneraattori ei ole käytettävissä.")
+            return
+            
         try:
             filename = self.generator.save_recipe(recipe)
             st.success(f"✅ Resepti tallennettu tiedostoon: {filename}")
@@ -500,6 +531,10 @@ class RecipeApp:
     
     def _suggest_alternatives(self, recipe: Dict[str, Any]):
         """Suggest cheaper alternatives."""
+        if self.generator is None:
+            st.error("AI-reseptigeneraattori ei ole käytettävissä.")
+            return
+            
         try:
             with st.spinner("Etsin halvempia vaihtoehtoja..."):
                 alternatives = self.generator.suggest_cheaper_alternatives(recipe)
