@@ -92,6 +92,11 @@ additional_products_*.json
 product_discovery_*.json
 bulk_products_*.json
 
+# K-ruoka related files (removed from project)
+*k_ruoka*
+*k_kaupat*
+*K-ruoka*
+
 # Recipe AI specific ignores
 recipe_ai/.env
 recipe_ai/recipe_*.json

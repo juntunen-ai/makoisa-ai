@@ -12,10 +12,6 @@ class Config:
     DEFAULT_TABLE_ID = "stores"
     DEFAULT_LOCATION = "US"
     
-    # K-ruoka specific settings
-    K_RUOKA_DATASET_ID = "k_kaupat"
-    K_RUOKA_TABLE_ID = "products"
-    
     # Environment variable names
     ENV_PROJECT_ID = "GOOGLE_CLOUD_PROJECT"
     ENV_DATASET_ID = "BIGQUERY_DATASET_ID"
