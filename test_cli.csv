@@ -1,0 +1,4 @@
+name,address,city,postal_code,phone,hours,services,latitude,longitude,store_type,store_url,scraped_at,source
+Alepa Havukoski,"Eteläinen Rastitie 6, 01360 Vantaa",Vantaa,01360,,08:00—23:00,[],,,Alepa,/myymala/alepa-havukoski/725856933,2025-05-31T13:55:18.793213,browser
+Alepa Malmin Nova,"Malminkaari 13-15, 00700 Helsinki",Helsinki,00700,,24h,[],,,Alepa,/myymala/alepa-malmin-nova/726007267,2025-05-31T13:55:18.799011,browser
+Alepa Pähkinärinne,"Lammaslammentie 8, 01710 Vantaa",Vantaa,01710,,08:00—23:00,['Tilaa verkosta'],,,Alepa,/myymala/alepa-pahkinarinne/726435585,2025-05-31T13:55:18.804176,browser

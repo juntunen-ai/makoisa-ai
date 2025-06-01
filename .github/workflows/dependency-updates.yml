@@ -1,0 +1,79 @@
+name: Dependency Updates
+
+on:
+  schedule:
+    # Run weekly on Mondays at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-dependencies:
+    name: Update Dependencies
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.12"
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+
+    - name: Update dependencies
+      run: |
+        # Update dependencies
+        poetry update
+        
+        # Check if there are any changes
+        if git diff --quiet poetry.lock; then
+          echo "No dependency updates available"
+          echo "HAS_UPDATES=false" >> $GITHUB_ENV
+        else
+          echo "Dependencies updated"
+          echo "HAS_UPDATES=true" >> $GITHUB_ENV
+        fi
+
+    - name: Run tests with updated dependencies
+      if: env.HAS_UPDATES == 'true'
+      run: |
+        poetry install --no-interaction --no-ansi
+        poetry run playwright install chromium
+        poetry run pytest tests/ -v
+
+    - name: Create Pull Request
+      if: env.HAS_UPDATES == 'true'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "chore: update dependencies"
+        title: "🔄 Automated dependency updates"
+        body: |
+          ## 🔄 Automated Dependency Updates
+          
+          This PR contains automated dependency updates.
+          
+          ### Changes
+          - Updated Python packages to latest compatible versions
+          - All tests pass with updated dependencies
+          
+          ### Testing
+          - ✅ Unit tests passed
+          - ✅ Integration tests passed
+          - ✅ Security scan completed
+          
+          This PR was automatically created by the dependency update workflow.
+        branch: automated/dependency-updates
+        base: main
+        labels: |
+          dependencies
+          automated

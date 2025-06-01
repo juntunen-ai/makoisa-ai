@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Chiquita banaani",
+    "price": "0,17 €",
+    "description": "Chiquita-banaani, Class Extra -luokka",
+    "url": "https://www.s-kaupat.fi/tuote/chiquita-banaani/2000503600002",
+    "scraped_at": "2025-05-31T16:43:43.649837",
+    "source": "browser"
+  },
+  {
+    "name": "Kotimaista kevytmaito 1 L",
+    "price": "0,79 €",
+    "description": "Proteiinit ja kalsium ovat tarpeellisia luuston pysymiselle normaalina. Maitoon lisätty D-vitamiini edistää kalsiumin normaalia hyödyntämistä…",
+    "url": "https://www.s-kaupat.fi/tuote/kotimaista-kevytmaito-1-l/6414893386488",
+    "scraped_at": "2025-05-31T16:43:52.930628",
+    "source": "browser"
+  },
+  {
+    "name": "Kotimaista laktoositon kevytmaitojuoma 1 L",
+    "price": "1,19 €",
+    "description": "Laktoositon maitojuoma maistuu tavalliselta pastöroidulta maidolta ja sopii juotavaksi sellaisenaan, ruuanvalmistukseen ja leivontaan.",
+    "url": "https://www.s-kaupat.fi/tuote/kotimaista-laktoositon-kevytmaitojuoma-1-l/6414893385672",
+    "scraped_at": "2025-05-31T16:44:03.116518",
+    "source": "browser"
+  }
+]

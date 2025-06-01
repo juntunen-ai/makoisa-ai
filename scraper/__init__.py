@@ -1,5 +1,5 @@
 """S-kaupat scraper module."""
 
-from .main import run_scrape
+from .main import run_scrape, run_product_scrape, scrape_single_product
 
-__all__ = ["run_scrape"]
+__all__ = ["run_scrape", "run_product_scrape", "scrape_single_product"]

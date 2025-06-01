@@ -1,0 +1,81 @@
+[
+  {
+    "name": "Prisma Tikkurila",
+    "address": "Unikkotie 13, 01300 Vantaa",
+    "city": "Vantaa",
+    "postal_code": "01300",
+    "phone": "",
+    "hours": "06:00—00:00",
+    "services": [
+      "Tilaa verkosta"
+    ],
+    "latitude": null,
+    "longitude": null,
+    "store_type": "Prisma",
+    "store_url": "/myymala/prisma-tikkurila/542865571",
+    "scraped_at": "2025-05-31T13:53:40.764256",
+    "source": "browser"
+  },
+  {
+    "name": "Prisma Rovaniemi",
+    "address": "Teollisuustie 2, 96320 Rovaniemi",
+    "city": "Rovaniemi",
+    "postal_code": "96320",
+    "phone": "",
+    "hours": "08:00—23:00",
+    "services": [
+      "Tilaa verkosta"
+    ],
+    "latitude": null,
+    "longitude": null,
+    "store_type": "Prisma",
+    "store_url": "/myymala/prisma-rovaniemi/552112880",
+    "scraped_at": "2025-05-31T13:53:40.770029",
+    "source": "browser"
+  },
+  {
+    "name": "Prisma Raksila Oulu",
+    "address": "Tehtaankatu 3, 90130 Oulu",
+    "city": "Oulu",
+    "postal_code": "90130",
+    "phone": "",
+    "hours": "07:00—22:00",
+    "services": [],
+    "latitude": null,
+    "longitude": null,
+    "store_type": "Prisma",
+    "store_url": "/myymala/prisma-raksila-oulu/516528759",
+    "scraped_at": "2025-05-31T13:53:40.775827",
+    "source": "browser"
+  },
+  {
+    "name": "Roo Prisma",
+    "address": "Roo tee 1, 76912 Tallinn",
+    "city": "Tallinn",
+    "postal_code": "76912",
+    "phone": "",
+    "hours": "07:00—23:00",
+    "services": [],
+    "latitude": null,
+    "longitude": null,
+    "store_type": "Prisma",
+    "store_url": "/myymala/roo-prisma/720573872",
+    "scraped_at": "2025-05-31T13:53:40.781334",
+    "source": "browser"
+  },
+  {
+    "name": "Sõbra Prisma",
+    "address": "Sõbra 56, 51013 Tartu",
+    "city": "Tartu",
+    "postal_code": "51013",
+    "phone": "",
+    "hours": "24h",
+    "services": [],
+    "latitude": null,
+    "longitude": null,
+    "store_type": "Prisma",
+    "store_url": "/myymala/sobra-prisma/685847808",
+    "scraped_at": "2025-05-31T13:53:40.786331",
+    "source": "browser"
+  }
+]
