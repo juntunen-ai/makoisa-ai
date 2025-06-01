@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Local development script for S-kaupat Scraper
+# Local development script for Ruokahinta
 # Runs the FastAPI server locally for development and testing
 
 set -e
 
-echo "🚀 Starting S-kaupat Scraper Local Development Server"
+echo "🚀 Starting Ruokahinta Local Development Server"
 echo ""
 
 # Check if Poetry is installed

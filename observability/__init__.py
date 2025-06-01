@@ -1,5 +1,5 @@
 """
-Observability module for S-kaupat scraper
+Observability module for Ruokahinta
 Provides logging, metrics, and monitoring capabilities
 """
 

@@ -1,5 +1,5 @@
 """
-Metrics collection for S-kaupat scraper
+Metrics collection for Ruokahinta
 Provides application and business metrics
 """
 
@@ -12,7 +12,7 @@ import json
 
 
 class MetricsCollector:
-    """In-memory metrics collector for the S-kaupat scraper"""
+    """In-memory metrics collector for the Ruokahinta service"""
     
     def __init__(self, retention_hours: int = 24):
         self.retention_hours = retention_hours

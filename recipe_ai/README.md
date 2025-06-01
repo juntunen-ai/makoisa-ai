@@ -7,7 +7,7 @@ An AI-powered recipe generator that uses Google Vertex AI to create recipes base
 
 ## ✅ What's Working
 
-- **✅ Vertex AI Integration**: Using Gemini 2.0 Flash model (gemini-2.0-flash-001) in us-central1
+- **✅ Vertex AI Integration**: Using Gemini 2.5 Flash Preview model (gemini-2.5-flash-preview-05-20) in us-central1
 - **✅ BigQuery Integration**: Successfully searching the `products` table for ingredient pricing  
 - **✅ Web UI**: Streamlit application running at http://localhost:8501
 - **✅ Environment Configuration**: Proper .env setup with project ID `ruokahinta-scraper-1748695687`

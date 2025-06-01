@@ -4,7 +4,7 @@ import logging
 import os
 import sys
 from datetime import datetime, timezone
-from typing import Dict, Any configuration for S-kaupat scraper
+from typing import Dict, Any configuration for Ruokahinta
 Provides structured logging with JSON format for Cloud Run
 """
 

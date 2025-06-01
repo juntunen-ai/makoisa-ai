@@ -248,7 +248,7 @@ class CloudMonitoringIntegration:
         series.metric.type = metric_type
         series.resource.type = "cloud_run_revision"
         series.resource.labels["project_id"] = self.project_id
-        series.resource.labels["service_name"] = "s-kaupat-scraper"
+        series.resource.labels["service_name"] = "ruokahinta"
         series.resource.labels["revision_name"] = os.getenv("K_REVISION", "unknown")
         series.resource.labels["location"] = os.getenv("FUNCTION_REGION", "europe-north1")
         

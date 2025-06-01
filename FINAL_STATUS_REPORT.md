@@ -9,7 +9,7 @@
 ## 🎯 COMPLETED OBJECTIVES
 
 ### 1. ✅ AI-Powered Recipe Generation
-- **Vertex AI Integration**: Successfully configured with Gemini 2.0 Flash model (gemini-2.0-flash-001)
+- **Vertex AI Integration**: Successfully configured with Gemini 2.5 Flash Preview model (gemini-2.5-flash-preview-05-20)
 - **Location**: us-central1 (optimal for Gemini models)
 - **Project ID**: ruokahinta-scraper-1748695687
 - **Recipe Quality**: Generates detailed Finnish recipes with ingredients, instructions, and nutritional info
@@ -78,7 +78,7 @@ recipe_ai/
 
 ### Configuration
 - **Project ID**: `ruokahinta-scraper-1748695687`
-- **AI Model**: `gemini-2.0-flash-001` (latest Gemini 2.0 Flash)
+- **AI Model**: `gemini-2.5-flash-preview-05-20` (latest Gemini 2.5 Flash Preview)
 - **Region**: `us-central1` (optimal for Gemini availability)
 - **BigQuery Table**: `ruokahinta-scraper-1748695687.scraped_data.products`
 

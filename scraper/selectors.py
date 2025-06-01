@@ -1,6 +1,6 @@
-"""CSS selectors and constants for S-kaupat scraping."""
+"""CSS selectors and constants for Finnish grocery store scraping."""
 
-# Store page selectors - Updated for actual S-kaupat.fi structure
+# Store page selectors - Updated for actual grocery store structure
 STORE_TYPE_LINKS_SELECTOR = 'a[href*="/myymalat/"]'
 STORE_TYPE_NAME_SELECTOR = 'a[href*="/myymalat/"]'
 

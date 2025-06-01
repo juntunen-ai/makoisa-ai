@@ -93,12 +93,12 @@ jobs:
 
     - name: Build Docker image (test only)
       run: |
-        docker build -t s-kaupat-scraper:test .
+        docker build -t ruokahinta:test .
 
     - name: Test Docker image
       run: |
         # Run a quick test to ensure the container starts
-        docker run --rm s-kaupat-scraper:test python -c "import server; print('✅ Server imports successfully')"
+        docker run --rm ruokahinta:test python -c "import server; print('✅ Server imports successfully')"
 
   security-scan:
     name: Security Scan

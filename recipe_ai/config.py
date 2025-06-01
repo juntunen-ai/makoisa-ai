@@ -2,6 +2,33 @@
 
 import os
 from typing import Optional
+import sys
+from pathlib import Path
+
+# Load environment variables from .env file if it exists
+env_file = Path(__file__).parent / '.env'
+if env_file.exists():
+    with open(env_file) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                key, value = line.split('=', 1)
+                # Force override environment variables from .env file for recipe AI
+                os.environ[key.strip()] = value.strip()
+
+sys.path.append('/Users/harrijuntunen/s-kaupat-scraper')
+try:
+    from loader.config import Config as LoaderConfig
+except ImportError:
+    # Fallback for containerized environment
+    try:
+        from loader_config import Config as LoaderConfig
+    except ImportError:
+        # Create a minimal config class if loader is not available
+        class LoaderConfig:
+            @staticmethod
+            def get_full_table_id(project_id):
+                return f"{project_id}.scraped_data.products"
 
 
 class RecipeAIConfig:
@@ -9,12 +36,8 @@ class RecipeAIConfig:
     
     # Vertex AI settings
     DEFAULT_PROJECT_ID = "ruokahinta-scraper-1748695687"
-    DEFAULT_LOCATION = "europe-west1"  # Good for EU users
-    DEFAULT_MODEL = "gemini-1.5-pro"
-    
-    # BigQuery settings (inherit from existing config)
-    BIGQUERY_DATASET_ID = "s_kaupat"
-    BIGQUERY_TABLE_ID = "stores"
+    DEFAULT_LOCATION = "us-central1"  # Gemini models available here
+    DEFAULT_MODEL = "gemini-2.5-flash-preview-05-20"
     
     # Recipe generation settings
     DEFAULT_RECIPE_LANGUAGE = "fi"  # Finnish
@@ -23,7 +46,7 @@ class RecipeAIConfig:
     
     # Ingredient matching settings
     FUZZY_MATCH_THRESHOLD = 0.7
-    MAX_PRICE_RESULTS = 5
+    MAX_PRICE_RESULTS = 10
     
     # Environment variable names
     ENV_PROJECT_ID = "GOOGLE_CLOUD_PROJECT"
@@ -53,5 +76,6 @@ class RecipeAIConfig:
     
     @classmethod
     def get_bigquery_table(cls) -> str:
-        """Get fully qualified BigQuery table ID."""
-        return f"{cls.get_project_id()}.{cls.BIGQUERY_DATASET_ID}.{cls.BIGQUERY_TABLE_ID}"
+        """Get fully qualified BigQuery table ID using loader config."""
+        # Use the existing loader config for consistency
+        return LoaderConfig.get_full_table_id(cls.get_project_id())

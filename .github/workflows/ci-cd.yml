@@ -9,7 +9,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   REGION: europe-north1
-  SERVICE_NAME: s-kaupat-scraper
+  SERVICE_NAME: ruokahinta
 
 jobs:
   test:
@@ -145,7 +145,7 @@ jobs:
         gcloud run deploy $SERVICE_NAME \
           --image gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \
           --region $REGION \
-          --service-account s-kaupat-scraper@$PROJECT_ID.iam.gserviceaccount.com \
+          --service-account ruokahinta@$PROJECT_ID.iam.gserviceaccount.com \
           --set-env-vars "GOOGLE_CLOUD_PROJECT=$PROJECT_ID,BIGQUERY_DATASET_ID=s_kaupat,BIGQUERY_TABLE_ID=stores,BIGQUERY_LOCATION=$REGION" \
           --cpu 2 \
           --memory 2Gi \

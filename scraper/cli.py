@@ -1,4 +1,4 @@
-"""Command-line interface for the S-kaupat scraper."""
+"""Command-line interface for the Ruokahinta scraper."""
 
 import asyncio
 import json
@@ -25,7 +25,7 @@ def setup_logging(verbose: bool):
 
 @click.group()
 def cli():
-    """S-kaupat scraper - Extract store data from S-kaupat.fi"""
+    """Ruokahinta scraper - Extract store data from Finnish grocery services"""
     pass
 
 
@@ -71,7 +71,7 @@ def cli():
 )
 def scrape(browser: bool, output: Optional[str], output_format: str, limit: Optional[int], 
           store_types: Optional[str], verbose: bool, quiet: bool):
-    """Scrape S-kaupat.fi store data."""
+    """Scrape Finnish grocery store data."""
     
     setup_logging(verbose)
     
@@ -82,7 +82,7 @@ def scrape(browser: bool, output: Optional[str], output_format: str, limit: Opti
     async def main():
         try:
             if not quiet:
-                click.echo("🚀 Starting S-kaupat scraper...")
+                click.echo("🚀 Starting Ruokahinta scraper...")
             
             stores = await run_scrape(use_browser=browser)
             
@@ -212,8 +212,8 @@ def validate(file_path: str):
 @cli.command()
 def version():
     """Show version information."""
-    click.echo("S-kaupat Scraper v1.0.0")
-    click.echo("🛒 Scraper for S-kaupat.fi grocery store data")
+    click.echo("Ruokahinta v1.0.0")
+    click.echo("🛒 Scraper for Finnish grocery store data")
 
 
 @cli.command()
@@ -237,7 +237,7 @@ def version():
     help="Suppress all output except errors."
 )
 def scrape_product(product_url: str, output: Optional[str], verbose: bool, quiet: bool):
-    """Scrape product data from a single S-kaupat.fi product URL."""
+    """Scrape product data from a single Finnish grocery store product URL."""
     
     setup_logging(verbose)
     
@@ -300,7 +300,7 @@ def scrape_product(product_url: str, output: Optional[str], verbose: bool, quiet
     help="Suppress all output except errors."
 )
 def scrape_products(urls_file: str, output: Optional[str], verbose: bool, quiet: bool):
-    """Scrape product data from multiple S-kaupat.fi product URLs.
+    """Scrape product data from multiple Finnish grocery store product URLs.
     
     URLS_FILE should contain one product URL per line.
     """
@@ -388,7 +388,7 @@ def scrape_products(urls_file: str, output: Optional[str], verbose: bool, quiet:
     help="Enable verbose logging."
 )
 def scrape_all_products(output: Optional[str], batch_size: int, discover_first: bool, urls_file: str, verbose: bool):
-    """Scrape ALL products from S-kaupat.fi - comprehensive bulk operation.
+    """Scrape ALL products from Finnish grocery stores - comprehensive bulk operation.
     
     This command will either:
     1. Discover all product URLs and then scrape them (with --discover-first)

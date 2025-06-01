@@ -1,10 +1,10 @@
-# S-kaupat Scraper
+# Ruokahinta
 
-A comprehensive end-to-end solution for scraping S-kaupat.fi store data and loading it into Google BigQuery.
+A comprehensive end-to-end solution for scraping Finnish grocery store data and loading it into Google BigQuery.
 
 ## Overview
 
-This project scrapes grocery store data from s-kaupat.fi (a Finnish grocery delivery service) and provides tools to extract, transform, and load the data into BigQuery for analysis. The scraper extracts information about individual stores across 7 different store chains.
+This project scrapes grocery store data from Finnish grocery delivery services and provides tools to extract, transform, and load the data into BigQuery for analysis. The scraper extracts information about individual stores across 7 different store chains.
 
 ## Features
 
@@ -19,7 +19,7 @@ This project scrapes grocery store data from s-kaupat.fi (a Finnish grocery deli
 
 ## Store Types Supported
 
-The scraper extracts data from 7 different S-kaupat store chains:
+The scraper extracts data from 7 different Finnish grocery store chains:
 
 | Store Type | Count | Description |
 |------------|-------|-------------|
@@ -36,7 +36,7 @@ The scraper extracts data from 7 different S-kaupat store chains:
 ## Project Structure
 
 ```
-s-kaupat-scraper/
+ruokahinta/
 ├── scraper/           # Core scraping functionality
 │   ├── __init__.py    # Module exports
 │   ├── main.py        # Main scraper implementation
@@ -59,8 +59,8 @@ s-kaupat-scraper/
 
 2. **Clone the repository**
    ```bash
-   git clone https://github.com/juntunen-ai/s-kaupat-scraper.git
-   cd s-kaupat-scraper
+   git clone https://github.com/juntunen-ai/ruokahinta.git
+   cd ruokahinta
    ```
 
 3. **Install dependencies**
@@ -253,6 +253,6 @@ Contact <vihreamies.juntunen@gmail.com> for enquiries.
 
 ## Acknowledgments
 
-- S-kaupat.fi for providing the grocery store data
+- Finnish grocery delivery services for providing the store data
 - Playwright for reliable web scraping capabilities
 - Poetry for dependency management

@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 
 class HealthChecker:
-    """Comprehensive health checker for the S-kaupat scraper service"""
+    """Comprehensive health checker for the Ruokahinta service"""
     
     def __init__(self):
         self.start_time = datetime.now(timezone.utc)

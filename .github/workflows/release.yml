@@ -8,7 +8,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   REGION: europe-north1
-  SERVICE_NAME: s-kaupat-scraper
+  SERVICE_NAME: ruokahinta
 
 jobs:
   release:
@@ -75,7 +75,7 @@ jobs:
         gcloud run deploy $SERVICE_NAME \
           --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$VERSION \
           --region $REGION \
-          --service-account s-kaupat-scraper@$PROJECT_ID.iam.gserviceaccount.com \
+          --service-account ruokahinta@$PROJECT_ID.iam.gserviceaccount.com \
           --set-env-vars "GOOGLE_CLOUD_PROJECT=$PROJECT_ID,BIGQUERY_DATASET_ID=s_kaupat,BIGQUERY_TABLE_ID=stores,BIGQUERY_LOCATION=$REGION" \
           --cpu 2 \
           --memory 2Gi \
@@ -129,7 +129,7 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
         body: |
-          ## 🚀 S-kaupat Scraper Release ${{ github.ref }}
+          ## 🚀 Ruokahinta Release ${{ github.ref }}
           
           ### 🌐 Deployment
           - **Service URL**: ${{ steps.get-url.outputs.SERVICE_URL }}

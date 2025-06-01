@@ -1,4 +1,4 @@
-"""S-kaupat scraper module."""
+"""Ruokahinta scraper module."""
 
 from .main import run_scrape, run_product_scrape, scrape_single_product
 

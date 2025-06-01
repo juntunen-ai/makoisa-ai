@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# S-kaupat Scraper Cloud Run Deployment Script
+# Ruokahinta Cloud Run Deployment Script
 # This script builds and deploys the scraper to Google Cloud Run
 
 set -e  # Exit on any error
@@ -8,10 +8,10 @@ set -e  # Exit on any error
 # Configuration
 PROJECT_ID=${1:-"your-project-id"}
 REGION=${2:-"europe-north1"}
-SERVICE_NAME="s-kaupat-scraper"
+SERVICE_NAME="ruokahinta"
 IMAGE_NAME="gcr.io/$PROJECT_ID/$SERVICE_NAME"
 
-echo "🚀 S-kaupat Scraper Cloud Run Deployment"
+echo "🚀 Ruokahinta Cloud Run Deployment"
 echo "Project: $PROJECT_ID"
 echo "Region: $REGION"
 echo "Service: $SERVICE_NAME"
@@ -43,14 +43,14 @@ gcloud services enable bigquery.googleapis.com
 gcloud services enable containerregistry.googleapis.com
 
 # Create service account if it doesn't exist
-SERVICE_ACCOUNT="s-kaupat-scraper@$PROJECT_ID.iam.gserviceaccount.com"
+SERVICE_ACCOUNT="ruokahinta@$PROJECT_ID.iam.gserviceaccount.com"
 echo "👤 Setting up service account..."
 
 if ! gcloud iam service-accounts describe $SERVICE_ACCOUNT &> /dev/null; then
     echo "Creating service account: $SERVICE_ACCOUNT"
-    gcloud iam service-accounts create s-kaupat-scraper \
-        --display-name="S-kaupat Scraper Service Account" \
-        --description="Service account for S-kaupat scraper Cloud Run service"
+    gcloud iam service-accounts create ruokahinta \
+        --display-name="Ruokahinta Service Account" \
+        --description="Service account for Ruokahinta Cloud Run service"
     
     # Grant BigQuery permissions
     gcloud projects add-iam-policy-binding $PROJECT_ID \

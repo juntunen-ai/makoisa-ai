@@ -1,4 +1,4 @@
-"""Main scraper module for Finnish grocery stores."""
+"""Main scraper module for S-kaupat.fi."""
 
 import asyncio
 import logging
@@ -38,7 +38,7 @@ logger = logging.getLogger(__name__)
 
 
 class SKaupatScraper:
-    """Main scraper class for Finnish grocery stores."""
+    """Main scraper class for S-kaupat.fi."""
 
     def __init__(self, use_browser: bool = False):
         """Initialize the scraper.
@@ -81,7 +81,7 @@ class SKaupatScraper:
         logger.info("Attempting to discover API endpoints...")
         
         try:
-            # Try the actual grocery store API endpoint
+            # Try the actual S-kaupat API endpoint
             api_urls = [
                 STORES_API_ENDPOINT,
                 f"{API_BASE_URL}/store-locator",
@@ -344,7 +344,7 @@ class SKaupatScraper:
 
     async def scrape_stores(self) -> List[Dict[str, Any]]:
         """Main method to scrape store data."""
-        logger.info("Starting grocery store scraping...")
+        logger.info("Starting S-kaupat scraping...")
         
         # Try API approach first if not forced to use browser
         if not self.use_browser and self.session:

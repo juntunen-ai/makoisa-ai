@@ -21,7 +21,7 @@ def setup_logging(verbose: bool = False) -> None:
 @click.option('--verbose', '-v', is_flag=True, help='Enable verbose logging')
 @click.pass_context
 def cli(ctx: click.Context, verbose: bool) -> None:
-    """BigQuery loader for Finnish grocery store data."""
+    """BigQuery loader for S-kaupat store data."""
     ctx.ensure_object(dict)
     ctx.obj['verbose'] = verbose
     setup_logging(verbose)

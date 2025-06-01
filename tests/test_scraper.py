@@ -1,4 +1,4 @@
-"""Tests for the S-kaupat scraper."""
+"""Tests for the Ruokahinta scraper."""
 
 import json
 import pytest
@@ -9,7 +9,7 @@ from scraper.main import SKaupatScraper, run_scrape
 
 
 class TestSKaupatScraper:
-    """Test cases for the S-kaupat scraper."""
+    """Test cases for the Ruokahinta scraper."""
 
     @pytest.fixture
     def golden_page_html(self):

@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: s-kaupat-scraper
+  name: ruokahinta
   annotations:
     run.googleapis.com/ingress: all
 spec:
@@ -19,11 +19,11 @@ spec:
         run.googleapis.com/execution-environment: gen2
     spec:
       # Service account for BigQuery access
-      serviceAccountName: s-kaupat-scraper@${PROJECT_ID}.iam.gserviceaccount.com
+      serviceAccountName: ruokahinta@${PROJECT_ID}.iam.gserviceaccount.com
       containerConcurrency: 10
       containers:
-      - name: s-kaupat-scraper
-        image: gcr.io/${PROJECT_ID}/s-kaupat-scraper:latest
+      - name: ruokahinta
+        image: gcr.io/${PROJECT_ID}/ruokahinta:latest
         ports:
         - containerPort: 8080
         env:

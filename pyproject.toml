@@ -1,4 +1,6 @@
-[tool.poetry]
+[name = "ruokahinta"
+version = "1.0.0"
+description = "Finnish grocery price scraper → BigQuery"l.poetry]
 name = "s-kaupat-scraper"
 version = "0.1.0"
 description = "Scrape s-kaupat.fi → BigQuery"
