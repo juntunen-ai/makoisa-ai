@@ -1,13 +1,19 @@
 # Ruokahinta
 
-A comprehensive end-to-end solution for scraping Finnish grocery store data and loading it into Google BigQuery.
+A comprehensive end-to-end solution for scraping Finnish grocery store data, loading it into Google BigQuery, and generating AI-powered recipes with real-time pricing.
 
 ## Overview
 
-This project scrapes grocery store data from Finnish grocery delivery services and provides tools to extract, transform, and load the data into BigQuery for analysis. The scraper extracts information about individual stores across 7 different store chains.
+This project consists of two main components:
+
+1. **Grocery Store Data Platform**: Scrapes grocery store data from Finnish grocery delivery services and provides tools to extract, transform, and load the data into BigQuery for analysis
+2. **AI Recipe Generator**: Uses the scraped grocery data to generate AI-powered recipes with real-time Finnish grocery store pricing
+
+The scraper extracts information about individual stores across 7 different store chains, while the AI Recipe Generator leverages this data to provide users with recipe suggestions and accurate ingredient pricing.
 
 ## Features
 
+### Core Data Platform
 - **Multi-chain support**: Scrapes 7 different store types (Prisma, S-market, Alepa, Sale, Food Market Herkku, Sokos Herkku, Mestarin Herkku)
 - **Comprehensive data extraction**: Store names, addresses, cities, postal codes, operating hours, and services
 - **Multiple output formats**: JSON and CSV export
@@ -16,6 +22,15 @@ This project scrapes grocery store data from Finnish grocery delivery services a
 - **Rate limiting**: Respectful scraping with built-in delays
 - **Error handling**: Robust error handling and logging
 - **Test coverage**: Comprehensive unit tests
+
+### AI Recipe Generator 🍳
+- **AI-Powered Recipe Creation**: Uses Google's Gemini Pro model to generate authentic Finnish recipes
+- **Real-Time Pricing**: Integrates with grocery store data to show current ingredient prices
+- **Finnish Language Support**: Fully localized interface and recipe generation in Finnish
+- **Web Interface**: Beautiful Streamlit-based web app for easy recipe creation
+- **Ingredient Matching**: Smart ingredient matching with Finnish grocery store products
+- **Dietary Restrictions**: Support for various dietary preferences and restrictions
+- **Production Ready**: Containerized deployment with Cloud Run support
 
 ## Store Types Supported
 
@@ -37,41 +52,89 @@ The scraper extracts data from 7 different Finnish grocery store chains:
 
 ```
 ruokahinta/
+├── recipe_ai/         # AI Recipe Generator 🍳
+│   ├── ui/            # Streamlit web interface
+│   ├── vertex_ai_client.py    # AI recipe generation
+│   ├── ingredient_matcher.py  # Grocery store integration
+│   ├── recipe_generator.py    # Main orchestrator
+│   ├── config.py      # Configuration management
+│   ├── Dockerfile     # Container deployment
+│   └── README.md      # Recipe AI documentation
 ├── scraper/           # Core scraping functionality
 │   ├── __init__.py    # Module exports
 │   ├── main.py        # Main scraper implementation
 │   ├── selectors.py   # CSS selectors for web scraping
 │   └── cli.py         # Command-line interface
-├── loader/            # BigQuery loader (Phase 3)
-│   └── __init__.py
-├── infra/             # Infrastructure as Code (Phase 5)
+├── loader/            # BigQuery loader
+│   ├── main.py        # Data loading pipeline
+│   ├── cli.py         # Command-line interface
+│   └── config.py      # Configuration
+├── observability/     # Monitoring and health checks
+│   ├── health.py      # Health check endpoints
+│   ├── metrics.py     # Application metrics
+│   └── monitoring.py  # Cloud monitoring integration
 ├── tests/             # Test suite
-│   └── test_scraper_updated.py
+│   ├── test_scraper.py
+│   ├── test_loader.py
+│   └── test_observability.py
+├── docs/              # Documentation
 ├── pyproject.toml     # Poetry dependencies
 └── README.md          # This file
 ```
 
 ## Installation
 
-1. **Prerequisites**
-   - Python 3.12+
-   - Poetry (Python dependency manager)
+### Prerequisites
+- Python 3.12+
+- Poetry (Python dependency manager)
+- Google Cloud Project with Vertex AI and BigQuery APIs enabled (for AI Recipe Generator)
 
-2. **Clone the repository**
+### Quick Setup
+
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/juntunen-ai/ruokahinta.git
-   cd ruokahinta
+   git clone https://github.com/juntunen-ai/s-kaupat-scraper.git
+   cd s-kaupat-scraper
    ```
 
-3. **Install dependencies**
+2. **Install dependencies**
    ```bash
    poetry install
    ```
 
-4. **Install Playwright browsers**
+3. **Install Playwright browsers** (for scraper)
    ```bash
    poetry run playwright install
    ```
+
+4. **Set up AI Recipe Generator** (optional)
+   ```bash
+   ./setup_recipe_ai.sh
+   ```
+
+## Quick Start
+
+### AI Recipe Generator 🍳
+
+The AI Recipe Generator is ready to use out of the box:
+
+```bash
+# Start the web interface
+cd recipe_ai
+streamlit run ui/app.py
+```
+
+Then open http://localhost:8501 in your browser to start generating recipes!
+
+**Features:**
+- Generate recipes in Finnish using AI
+- Get real-time ingredient pricing from Finnish grocery stores
+- Support for dietary restrictions
+- Beautiful web interface
+
+See the [AI Recipe Generator README](recipe_ai/README.md) for detailed setup and deployment instructions.
+
+### Grocery Store Data Scraper
 
 ## Usage
 
@@ -189,7 +252,8 @@ This project follows a development roadmap:
 - ~~**Phase 5**: Infrastructure-as-Code with Terraform~~ (Skipped - deployment script sufficient)
 - ✅ **Phase 6**: CI/CD with GitHub Actions
 - ✅ **Phase 7**: Observability and monitoring
-- ⏳ **Phase 8**: Hardening and cost optimization
+- ✅ **Phase 8**: AI Recipe Generator - Complete with cleanup
+- ⏳ **Phase 9**: Hardening and cost optimization
 
 ## Cloud Run Deployment (Phase 4)
 
