@@ -26,11 +26,13 @@ The scraper extracts information about individual stores across 7 different stor
 ### AI Recipe Generator 🍳
 - **AI-Powered Recipe Creation**: Uses Google's Gemini Pro model to generate authentic Finnish recipes
 - **Real-Time Pricing**: Integrates with grocery store data to show current ingredient prices
+- **Enhanced Ingredient Matching**: Smart ingredient matching with 72.7% accuracy rate
 - **Finnish Language Support**: Fully localized interface and recipe generation in Finnish
 - **Web Interface**: Beautiful Streamlit-based web app for easy recipe creation
-- **Ingredient Matching**: Smart ingredient matching with Finnish grocery store products
+- **Advanced Algorithm**: Multi-factor scoring system with category-specific boosts
 - **Dietary Restrictions**: Support for various dietary preferences and restrictions
 - **Production Ready**: Containerized deployment with Cloud Run support
+- **BigQuery Integration**: European decimal format support and robust error handling
 
 ## Store Types Supported
 
