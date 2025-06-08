@@ -42,7 +42,7 @@ class RecipeAIConfig:
     # Recipe generation settings
     DEFAULT_RECIPE_LANGUAGE = "fi"  # Finnish
     MAX_INGREDIENTS = 20
-    MAX_RECIPE_TOKENS = 2000
+    MAX_RECIPE_TOKENS = 4000  # Increased for complete recipes
     
     # Ingredient matching settings
     FUZZY_MATCH_THRESHOLD = 0.7

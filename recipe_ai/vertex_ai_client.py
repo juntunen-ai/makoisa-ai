@@ -97,10 +97,17 @@ Olet kokenut keittiömestari ja reseptisuunnittelija. Tehtäväsi on luoda herku
 
 OHJE:
 1. Luo resepti käyttäjän pyynnön perusteella
-2. Käytä ainesosia, joita löytyy todennäköisesti suomalaisista ruokakaupoista
+2. Käytä YKSINKERTAISIA ainesosia, joita löytyy todennäköisesti suomalaisista ruokakaupoista
 3. Anna tarkat määrät ja selkeät ohjeet
 4. Sisällytä valmistusaika ja annosmäärä
 5. Voit ehdottaa vaihtoehtoja ainesosille{restrictions_text}
+
+TÄRKEÄÄ - AINESOSIEN NIMEÄMINEN:
+- Käytä yksinkertaisia, standardeja nimiä (esim. "jauheliha" ei "nauta-sikajauheliha (70/30)")
+- Älä lisää tuotemerkkejä tai tarkkoja prosenttiosuuksia
+- Älä käytä sulkeita tai selittäviä lauseita
+- Hyvät esimerkit: "sipuli", "peruna", "maito", "jauheliha", "kananmuna"
+- Vältä: "sipuli (pieni)", "peruna (kiinteä- tai yleisperuna)", "maito (tai vesi/kerma)"
 
 VASTAA AINA TÄSSÄ JSON-MUODOSSA:
 {{
@@ -134,14 +141,22 @@ Pidä ainesosat yksinkertaisina ja käytä nimiä, joita käytetään suomalaisi
     def _parse_recipe_response(self, response_text: str) -> Dict[str, Any]:
         """Parse the AI response to extract recipe JSON."""
         try:
+            # Remove markdown code blocks if present
+            clean_text = response_text.strip()
+            if clean_text.startswith('```json'):
+                clean_text = clean_text[7:]  # Remove ```json
+            if clean_text.endswith('```'):
+                clean_text = clean_text[:-3]  # Remove ```
+            clean_text = clean_text.strip()
+            
             # Find JSON in the response
-            start_idx = response_text.find('{')
-            end_idx = response_text.rfind('}') + 1
+            start_idx = clean_text.find('{')
+            end_idx = clean_text.rfind('}') + 1
             
             if start_idx == -1 or end_idx == 0:
                 raise ValueError("No JSON found in response")
             
-            json_str = response_text[start_idx:end_idx]
+            json_str = clean_text[start_idx:end_idx]
             recipe_data = json.loads(json_str)
             
             # Validate required fields

@@ -25,6 +25,7 @@ class IngredientMatcher:
             "kana": ["kana", "broileri", "chicken"],
             "nauta": ["nauta", "beef", "härkä"],
             "sika": ["sika", "pork", "possu"],
+            "jauheliha": ["jauheliha", "nauta", "sika", "nauta-sika", "sika-nauta"],
             "kala": ["kala", "fish", "lohi", "salmon", "turska"],
             
             # Vegetables
@@ -36,21 +37,38 @@ class IngredientMatcher:
             
             # Dairy
             "maito": ["maito", "milk"],
-            "kerma": ["kerma", "cream"],
+            "kerma": ["kerma", "cream", "ruokakerma"],
             "juusto": ["juusto", "cheese"],
-            "voi": ["voi", "butter"],
+            "parmesaanijuusto": ["parmesaani", "parmesan", "grana padano"],
+            "mozzarella": ["mozzarella", "pizza juusto"],
+            "voi": ["voi 500g", "voi 250g", "butter", "margariini"],
+            "kananmuna": ["kananmuna", "muna", "egg"],
             
-            # Grains
-            "riisi": ["riisi", "rice"],
+            # Grains and Baking
+            "riisi": ["riisi 1kg", "riisi 500g", "basmati", "jasmiini riisi", "riisin"],
             "pasta": ["pasta", "makaroni", "spagetti"],
             "leipä": ["leipä", "bread"],
-            "jauhot": ["jauhot", "flour"],
+            "jauhot": ["jauhot", "flour", "vehnäjauho"],
+            "korppujauho": ["korppujauho", "strö", "breadcrumb"],
             
-            # Common seasonings
-            "suola": ["suola", "salt"],
-            "pippuri": ["pippuri", "pepper"],
+            # Seasonings and Condiments
+            "suola": ["suola 1kg", "keittosuola", "merisuola", "salt"],
+            "pippuri": ["mustapippuri", "pippuri", "pepper", "black pepper"],
+            "mustapippuri": ["mustapippuri", "pippuri", "pepper", "black pepper"],
             "sokeri": ["sokeri", "sugar"],
-            "öljy": ["öljy", "oil", "rypsiöljy", "oliiviöljy"]
+            "öljy": ["rypsiöljy", "öljy", "oil"],
+            "oliiviöljy": ["oliiviöljy", "olive oil", "extra virgin"],
+            "soijakastike": ["soijakastike", "soja", "soy sauce"],
+            "lihaliemikuutio": ["liemikuutio", "lihaliemi", "kasviliemi", "fond"],
+            "tomaattimurska": ["tomaattimurska", "crushed tomato", "tomaattisäilyke"],
+            "tomaattipyree": ["tomaattipyree", "tomato paste", "tomato puree"],
+            
+            # Herbs and Spices
+            "persilja": ["persilja", "parsley"],
+            "ruohosipuli": ["ruohosipuli", "chive"],
+            "basilika": ["basilika", "basil"],
+            "oregano": ["oregano"],
+            "timjami": ["timjami", "thyme"]
         }
         
         logger.info(f"Initialized IngredientMatcher for project: {self.project_id}")
@@ -117,18 +135,67 @@ class IngredientMatcher:
     
     def _get_search_terms(self, ingredient_name: str) -> List[str]:
         """Get search terms for an ingredient."""
-        terms = [ingredient_name]
+        terms = []
         
-        # Check mappings
-        for key, values in self.ingredient_mappings.items():
-            if any(term in ingredient_name for term in values):
-                terms.extend(values)
+        # Clean the ingredient name - remove parenthetical descriptions
+        clean_name = re.sub(r'\s*\([^)]*\)', '', ingredient_name).strip()
+        terms.append(clean_name)
+        
+        # Also add the original if different
+        if clean_name != ingredient_name:
+            terms.append(ingredient_name)
+        
+        # Extract main ingredient words (remove modifiers)
+        main_words = self._extract_main_ingredient_words(clean_name)
+        terms.extend(main_words)
+        
+        # Check mappings for each main word
+        for word in main_words:
+            for key, values in self.ingredient_mappings.items():
+                if word.lower() in key or any(term in word.lower() for term in values):
+                    terms.extend(values)
         
         # Add variations
-        terms.extend(self._generate_variations(ingredient_name))
+        terms.extend(self._generate_variations(clean_name))
         
         # Remove duplicates and empty terms
-        return list(set([term.strip() for term in terms if term.strip()]))
+        unique_terms = list(set([term.strip().lower() for term in terms if term.strip()]))
+        
+        # Sort by relevance (exact matches first, then shorter terms)
+        def term_priority(term):
+            if term == clean_name.lower():
+                return 0  # Exact match highest priority
+            elif len(term.split()) == 1:
+                return 1  # Single words second priority
+            else:
+                return 2  # Multi-word terms last
+        
+        unique_terms.sort(key=term_priority)
+        return unique_terms[:10]  # Limit to top 10 most relevant terms
+    
+    def _extract_main_ingredient_words(self, ingredient_name: str) -> List[str]:
+        """Extract main ingredient words, removing modifiers and descriptions."""
+        # Common modifiers to remove
+        modifiers = [
+            'tuore', 'kuivattu', 'pakastettu', 'suolattu', 'makeutettu',
+            'kiinteä', 'jauhoinen', 'yleisperuna', 'tai', 'esim', 'vähälaktoosinen',
+            'laktoositon', 'luomu', 'pieni', 'iso', 'kova', 'pehmeä'
+        ]
+        
+        words = ingredient_name.lower().split()
+        main_words = []
+        
+        for word in words:
+            # Remove punctuation
+            clean_word = re.sub(r'[^\w]', '', word)
+            
+            # Skip modifiers, percentages, and very short words
+            if (clean_word not in modifiers and 
+                not re.match(r'\d+%?', clean_word) and 
+                len(clean_word) > 2):
+                main_words.append(clean_word)
+        
+        return main_words
     
     def _generate_variations(self, ingredient_name: str) -> List[str]:
         """Generate variations of ingredient name."""
@@ -161,22 +228,25 @@ class IngredientMatcher:
             url,
             scraped_at
         FROM `{self.table_id}`
-        WHERE LOWER(name) LIKE @search_term
-           OR LOWER(description) LIKE @search_term
+        WHERE (LOWER(name) LIKE @search_term
+           OR LOWER(description) LIKE @search_term)
+        AND LENGTH(name) < 200  -- Filter out overly long product names
         ORDER BY 
             CASE 
-                WHEN LOWER(name) LIKE @exact_term THEN 1
-                WHEN LOWER(name) LIKE @search_term THEN 2
-                ELSE 3
+                WHEN LOWER(name) = @exact_term THEN 1
+                WHEN LOWER(name) LIKE CONCAT(@exact_term, '%') THEN 2
+                WHEN LOWER(name) LIKE CONCAT('%', @exact_term, '%') THEN 3
+                WHEN LOWER(description) LIKE @search_term THEN 4
+                ELSE 5
             END,
-            price
-        LIMIT 20
+            SAFE_CAST(REPLACE(REGEXP_REPLACE(price, r'[^0-9,.]', ''), ',', '.') AS FLOAT64) ASC
+        LIMIT 25
         """
         
         job_config = bigquery.QueryJobConfig(
             query_parameters=[
                 bigquery.ScalarQueryParameter("search_term", "STRING", f"%{search_term.lower()}%"),
-                bigquery.ScalarQueryParameter("exact_term", "STRING", f"%{search_term.lower()}%")
+                bigquery.ScalarQueryParameter("exact_term", "STRING", search_term.lower())
             ]
         )
         
@@ -186,20 +256,77 @@ class IngredientMatcher:
             
             products = []
             for row in results:
-                products.append({
-                    'name': row.name,
-                    'price': row.price,
-                    'description': row.description or '',
-                    'url': row.url,
-                    'scraped_at': row.scraped_at.isoformat() if row.scraped_at else None,
-                    'search_term': search_term
-                })
+                # Basic relevance filtering
+                if self._is_relevant_product(search_term, row.name, row.description or ''):
+                    products.append({
+                        'name': row.name,
+                        'price': row.price,
+                        'description': row.description or '',
+                        'url': row.url,
+                        'scraped_at': row.scraped_at.isoformat() if row.scraped_at else None,
+                        'search_term': search_term
+                    })
             
             return products
             
         except Exception as e:
             logger.error(f"Error searching products for term '{search_term}': {e}")
             return []
+    
+    def _is_relevant_product(self, search_term: str, product_name: str, description: str) -> bool:
+        """Filter out obviously irrelevant products."""
+        search_lower = search_term.lower()
+        name_lower = product_name.lower()
+        desc_lower = description.lower()
+        
+        # Skip baby food unless specifically searching for it
+        if 'piltti' in name_lower and 'baby' not in search_lower and 'vauva' not in search_lower:
+            return False
+        
+        # Skip pet food unless specifically searching for it
+        if any(term in name_lower for term in ['koira', 'kissa', 'pet']) and 'pet' not in search_lower:
+            return False
+        
+        # For specific ingredients, apply category filters
+        if search_lower in ['jauheliha', 'nauta', 'sika']:
+            # Skip processed/prepared products for raw meat searches
+            if any(term in name_lower for term in ['makkara', 'pihvi', 'leikkele', 'pyörykkä']):
+                return False
+        
+        if search_lower in ['peruna', 'potato']:
+            # Skip highly processed potato products for basic potato searches
+            if any(term in name_lower for term in ['chips', 'fries', 'lasagne', 'salaatti']):
+                return False
+        
+        if search_lower in ['riisi', 'rice']:
+            # Skip rice snacks, rice cakes, and ready meals for basic rice searches
+            if any(term in name_lower for term in ['välipala', 'keksi', 'murokeksi', 'vadelma', 'hedelmä', 'kakku', 'kebab', 'ateria']):
+                return False
+        
+        if search_lower in ['voi', 'butter']:
+            # Skip products that just contain 'vo' but aren't butter
+            if any(term in name_lower for term in ['voima', 'papu', 'muro', 'kuohuviini', 'avokaado']):
+                return False
+            # Must actually contain butter-related terms
+            if not any(term in name_lower for term in ['voi', 'butter', 'margariini']):
+                return False
+        
+        if search_lower in ['suola', 'salt']:
+            # Skip products that aren't actually salt
+            if any(term in name_lower for term in ['margariini', 'pakaste', 'papu', 'peruna']):
+                return False
+        
+        if search_lower in ['mustapippuri', 'pippuri', 'pepper']:
+            # Skip products that contain pepper but aren't pepper spice
+            if any(term in name_lower for term in ['peruna', 'pakaste', 'einekset', 'ateria']):
+                return False
+        
+        if search_lower in ['oliiviöljy', 'olive oil']:
+            # Skip products that contain olive oil but aren't olive oil
+            if any(term in name_lower for term in ['peruna', 'pakaste', 'einekset', 'ateria']):
+                return False
+        
+        return True
     
     def _deduplicate_and_rank(self, products: List[Dict[str, Any]], ingredient_name: str) -> List[Dict[str, Any]]:
         """Remove duplicates and rank products by relevance."""
@@ -222,18 +349,72 @@ class IngredientMatcher:
     
     def _calculate_match_score(self, ingredient_name: str, product_name: str) -> float:
         """Calculate match score between ingredient and product name."""
-        # Use sequence matcher for similarity
-        similarity = SequenceMatcher(None, ingredient_name.lower(), product_name.lower()).ratio()
+        ingredient_lower = ingredient_name.lower()
+        product_lower = product_name.lower()
         
-        # Boost score for exact word matches
-        ingredient_words = set(ingredient_name.lower().split())
-        product_words = set(product_name.lower().split())
-        word_overlap = len(ingredient_words.intersection(product_words))
+        # Extract main words from ingredient
+        ingredient_words = set(self._extract_main_ingredient_words(ingredient_lower))
+        product_words = set(product_lower.split())
         
-        # Combine similarity and word overlap
-        score = similarity * 0.7 + (word_overlap / max(len(ingredient_words), 1)) * 0.3
+        # Exact name match (highest score)
+        if ingredient_lower == product_lower:
+            return 1.0
         
-        return score
+        # Check for exact word matches
+        exact_matches = ingredient_words.intersection(product_words)
+        word_match_ratio = len(exact_matches) / max(len(ingredient_words), 1)
+        
+        # Sequence similarity
+        similarity = SequenceMatcher(None, ingredient_lower, product_lower).ratio()
+        
+        # Substring matches (ingredient words contained in product name)
+        substring_matches = 0
+        for ing_word in ingredient_words:
+            if any(ing_word in prod_word for prod_word in product_words):
+                substring_matches += 1
+        
+        substring_ratio = substring_matches / max(len(ingredient_words), 1)
+        
+        # Combined score with weights
+        # Prioritize exact word matches, then substring matches, then similarity
+        score = (
+            word_match_ratio * 0.5 +      # Exact word matches (50%)
+            substring_ratio * 0.3 +       # Substring matches (30%)
+            similarity * 0.2              # Overall similarity (20%)
+        )
+        
+        # Boost score for category-specific matches
+        score = self._apply_category_boost(ingredient_lower, product_lower, score)
+        
+        return min(score, 1.0)  # Cap at 1.0
+    
+    def _apply_category_boost(self, ingredient: str, product: str, base_score: float) -> float:
+        """Apply category-specific boosts to improve relevance."""
+        # Meat products
+        meat_terms = ['jauheliha', 'nauta', 'sika', 'kana', 'broileri']
+        if any(term in ingredient for term in meat_terms):
+            if any(term in product for term in meat_terms):
+                base_score += 0.1
+        
+        # Dairy products
+        dairy_terms = ['maito', 'kerma', 'juusto', 'voi', 'jogurtti']
+        if any(term in ingredient for term in dairy_terms):
+            if any(term in product for term in dairy_terms):
+                base_score += 0.1
+        
+        # Vegetables
+        veg_terms = ['sipuli', 'peruna', 'tomaatti', 'porkkana']
+        if any(term in ingredient for term in veg_terms):
+            if any(term in product for term in veg_terms):
+                base_score += 0.1
+        
+        # Grains and flour
+        grain_terms = ['jauhot', 'riisi', 'pasta', 'makaroni']
+        if any(term in ingredient for term in grain_terms):
+            if any(term in product for term in grain_terms):
+                base_score += 0.1
+        
+        return base_score
     
     def _extract_price(self, price_str: str) -> float:
         """Extract numeric price from price string."""
