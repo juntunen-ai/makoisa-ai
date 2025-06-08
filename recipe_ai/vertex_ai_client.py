@@ -73,145 +73,17 @@ Luo resepti JSON-muodossa:
             return self._generate_fallback_recipe(user_prompt, dietary_restrictions)
     
     def _generate_fallback_recipe(self, user_prompt: str, dietary_restrictions: Optional[List[str]] = None) -> Dict[str, Any]:
-        """Generate a fallback recipe when Vertex AI is not available."""
+        """Generate a fallback recipe when Vertex AI is not available.
         
-        # Demo recipes to choose from
-        demo_recipes = [
-            {
-                "name": "Helppo Kanapastavuoka",
-                "description": "Kermainen kanapastavuoka joka maistuu koko perheelle",
-                "servings": 4,
-                "prep_time_minutes": 15,
-                "cook_time_minutes": 30,
-                "total_time_minutes": 45,
-                "difficulty": "helppo",
-                "ingredients": [
-                    {"item": "kanafilee", "amount": "400", "unit": "g", "notes": "kuutioitu"},
-                    {"item": "pasta", "amount": "300", "unit": "g", "notes": "esim. penne"},
-                    {"item": "ruokakerma", "amount": "2", "unit": "dl", "notes": ""},
-                    {"item": "sipuli", "amount": "1", "unit": "kpl", "notes": "hienoksi silppu"},
-                    {"item": "valkosipuli", "amount": "2", "unit": "kynttä", "notes": "hienoksi silppu"},
-                    {"item": "tomaattipyree", "amount": "2", "unit": "rkl", "notes": ""},
-                    {"item": "ranskankermajuusto", "amount": "150", "unit": "g", "notes": ""},
-                    {"item": "basilika", "amount": "1", "unit": "tl", "notes": "kuivattua"},
-                    {"item": "suola", "amount": "", "unit": "", "notes": "maun mukaan"},
-                    {"item": "pippuri", "amount": "", "unit": "", "notes": "maun mukaan"}
-                ],
-                "instructions": [
-                    "Keitä pasta ohjeen mukaan suolassa vedessä. Valuta.",
-                    "Kuumenna öljy pannulla ja paista kanakuutiot kypsiksi. Mausta suolalla ja pippurilla.",
-                    "Lisää sipuli ja valkosipuli. Paista hetki.",
-                    "Lisää tomaattipyree ja sekoita. Anna kiehua hetki.",
-                    "Kaada kerma ja anna kiehua muutama minuutti.",
-                    "Lisää ranskankermajuusto ja basilika. Sekoita kunnes juusto sulaa.",
-                    "Lisää pasta kastikkeeseen ja sekoita hyvin.",
-                    "Tarjoile heti lämpimänä."
-                ],
-                "tags": ["helppo", "arkiruoka", "pasta", "kana"],
-                "nutrition_notes": "Runsaasti proteiinia kanasta, hiilihydraatteja pastasta"
-            },
-            {
-                "name": "Suomalainen Hernekeitto",
-                "description": "Perinteinen suomalainen hernekeitto pannukakun kanssa",
-                "servings": 6,
-                "prep_time_minutes": 20,
-                "cook_time_minutes": 120,
-                "total_time_minutes": 140,
-                "difficulty": "helppo",
-                "ingredients": [
-                    {"item": "kuivatut herneet", "amount": "500", "unit": "g", "notes": "liotu yön yli"},
-                    {"item": "sianliha", "amount": "300", "unit": "g", "notes": "esim. kylkiluu"},
-                    {"item": "sipuli", "amount": "1", "unit": "kpl", "notes": "kuutioitu"},
-                    {"item": "porkkana", "amount": "2", "unit": "kpl", "notes": "kuutioitu"},
-                    {"item": "vesi", "amount": "2", "unit": "l", "notes": ""},
-                    {"item": "suola", "amount": "1", "unit": "tl", "notes": ""},
-                    {"item": "sinappi", "amount": "", "unit": "", "notes": "tarjoiluun"}
-                ],
-                "instructions": [
-                    "Liota herneet yön yli kylmässä vedessä.",
-                    "Valuta ja huuhtele herneet.",
-                    "Laita herneet, liha ja vesi kattilaan. Keitä.",
-                    "Poista vaahto pinnalta. Anna hautua 1,5 tuntia.",
-                    "Lisää sipuli ja porkkana. Keitä 30 min lisää.",
-                    "Mausta suolalla.",
-                    "Tarjoile sinapin kanssa ja pannukakun kera."
-                ],
-                "tags": ["perinteinen", "suomalainen", "talviruoka"],
-                "nutrition_notes": "Paljon proteiinia ja kuitua, täyttävä ateria"
-            },
-            {
-                "name": "Lohikiusaus",
-                "description": "Suomalainen klassikko uuniruoka lohesta ja perunoista",
-                "servings": 4,
-                "prep_time_minutes": 30,
-                "cook_time_minutes": 45,
-                "total_time_minutes": 75,
-                "difficulty": "keskivaikea",
-                "ingredients": [
-                    {"item": "lohi", "amount": "400", "unit": "g", "notes": "fileenä, kuutioitu"},
-                    {"item": "peruna", "amount": "800", "unit": "g", "notes": "ohut viipaleet"},
-                    {"item": "sipuli", "amount": "1", "unit": "kpl", "notes": "viipaleet"},
-                    {"item": "ruokakerma", "amount": "3", "unit": "dl", "notes": ""},
-                    {"item": "juustoraaste", "amount": "100", "unit": "g", "notes": ""},
-                    {"item": "kapris", "amount": "2", "unit": "rkl", "notes": ""},
-                    {"item": "tilli", "amount": "2", "unit": "rkl", "notes": "tuoretta"},
-                    {"item": "suola", "amount": "", "unit": "", "notes": "maun mukaan"},
-                    {"item": "pippuri", "amount": "", "unit": "", "notes": "maun mukaan"}
-                ],
-                "instructions": [
-                    "Kuori ja viipaloi perunat ohuiksi.",
-                    "Viipaloi sipuli.",
-                    "Voitele uunivuoka.",
-                    "Asettele keroksittain perunat, sipuli ja lohikuutiot.",
-                    "Kaada kerma päälle.",
-                    "Ripottele kaprikset ja tilli.",
-                    "Peitä foliolla ja paista 200°C 30 min.",
-                    "Poista folio, lisää juusto ja paista 15 min lisää.",
-                    "Anna vetäytyä 10 min ennen tarjoilua."
-                ],
-                "tags": ["uuniruoka", "lohi", "perinteinen", "juhla-ateria"],
-                "nutrition_notes": "Omega-3 rasvahappoja lohesta, C-vitamiinia perunoista"
-            }
-        ]
-        
-        # Try to pick a relevant recipe based on prompt keywords
-        prompt_lower = user_prompt.lower()
-        
-        if any(word in prompt_lower for word in ['kana', 'chicken', 'pasta']):
-            chosen_recipe = demo_recipes[0]  # Kanapastavuoka
-        elif any(word in prompt_lower for word in ['herne', 'soup', 'keitto', 'lämmitä']):
-            chosen_recipe = demo_recipes[1]  # Hernekeitto
-        elif any(word in prompt_lower for word in ['lohi', 'salmon', 'fish', 'kala', 'juhla']):
-            chosen_recipe = demo_recipes[2]  # Lohikiusaus
-        else:
-            # Random selection
-            chosen_recipe = random.choice(demo_recipes)
-        
-        # Apply dietary restrictions if any
-        if dietary_restrictions:
-            chosen_recipe = self._apply_dietary_restrictions(chosen_recipe, dietary_restrictions)
-        
-        # Add a note that this is a demo recipe
-        chosen_recipe["demo_mode"] = True
-        chosen_recipe["ai_note"] = f"Tämä on esimerkkiresepti (AI ei käytettävissä). Alkuperäinen pyyntö: '{user_prompt}'"
-        
-        logger.info(f"Generated fallback recipe: {chosen_recipe['name']}")
-        return chosen_recipe
-    
-    def _apply_dietary_restrictions(self, recipe: Dict[str, Any], restrictions: List[str]) -> Dict[str, Any]:
-        """Apply dietary restrictions to a recipe."""
-        # This is a simple implementation - in practice, you'd want more sophisticated logic
-        
-        if "kasvis" in restrictions or "vegetarian" in restrictions:
-            # Remove meat ingredients and suggest alternatives
-            recipe["ingredients"] = [
-                ing for ing in recipe["ingredients"] 
-                if not any(meat in ing["item"].lower() for meat in ['kana', 'sian', 'nauta', 'liha'])
-            ]
-            recipe["name"] = f"Kasvis-{recipe['name']}"
-            recipe["ai_note"] += " (mukautettu kasvisruokavalioon)"
-        
-        return recipe
+        This method no longer provides demo recipes and instead raises an exception
+        to ensure the system relies on actual AI generation rather than fallback content.
+        """
+        logger.error("Vertex AI is not available and no fallback recipes are provided")
+        raise RuntimeError(
+            "AI-reseptigeneraattori ei ole käytettävissä tällä hetkellä. "
+            "Tarkista internetyhteytesi ja yritä hetken kuluttua uudelleen."
+        )
+
     
     def _build_system_prompt(self, dietary_restrictions: Optional[List[str]] = None) -> str:
         """Build the system prompt for recipe generation."""
