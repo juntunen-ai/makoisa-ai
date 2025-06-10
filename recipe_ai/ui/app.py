@@ -37,6 +37,17 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Google AdSense configuration
+GOOGLE_ADSENSE_ENABLED = os.getenv('GOOGLE_ADSENSE_ENABLED', 'true').lower() == 'true'
+GOOGLE_ADSENSE_CLIENT_ID = os.getenv('GOOGLE_ADSENSE_CLIENT_ID', 'ca-pub-YOUR_PUBLISHER_ID')
+
+# Add Google AdSense script to head if enabled
+if GOOGLE_ADSENSE_ENABLED:
+    st.markdown(f"""
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={GOOGLE_ADSENSE_CLIENT_ID}"
+         crossorigin="anonymous"></script>
+    """, unsafe_allow_html=True)
+
 # Custom CSS
 st.markdown("""
 <style>
@@ -72,8 +83,93 @@ st.markdown("""
         border-radius: 10px;
         margin: 10px 0;
     }
+    .ad-container {
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 20px 0;
+        text-align: center;
+        font-size: 0.9em;
+        color: #666;
+    }
+    .ad-label {
+        font-size: 0.8em;
+        color: #999;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .ad-content {
+        min-height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .sidebar-ad {
+        max-width: 100%;
+        margin: 15px 0;
+    }
+    .main-ad {
+        max-width: 728px;
+        margin: 20px auto;
+    }
 </style>
 """, unsafe_allow_html=True)
+
+
+def render_google_ad(ad_slot: str, ad_style: str = "display:inline-block;width:100%;height:90px;", ad_format: str = "auto"):
+    """
+    Render a Google AdSense ad unit.
+    
+    Args:
+        ad_slot: Google AdSense ad unit slot ID
+        ad_style: CSS styling for the ad
+        ad_format: Ad format (auto, rectangle, etc.)
+    """
+    # Only show ads if enabled
+    if not GOOGLE_ADSENSE_ENABLED:
+        return
+    
+    # Production Google AdSense code
+    ad_html = f"""
+    <div class="ad-container">
+        <div class="ad-label">Mainos</div>
+        <div class="ad-content">
+            <ins class="adsbygoogle"
+                 style="{ad_style}"
+                 data-ad-client="{GOOGLE_ADSENSE_CLIENT_ID}"
+                 data-ad-slot="{ad_slot}"
+                 data-ad-format="{ad_format}"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({{}});
+            </script>
+        </div>
+    </div>
+    """
+    
+    st.markdown(ad_html, unsafe_allow_html=True)
+
+
+def render_sidebar_ad():
+    """Render a sidebar-appropriate ad for cooking/food content."""
+    if GOOGLE_ADSENSE_ENABLED:
+        render_google_ad(
+            ad_slot=os.getenv('GOOGLE_ADSENSE_SIDEBAR_SLOT', '1234567890'),
+            ad_style="display:block;width:100%;height:250px;",
+            ad_format="rectangle"
+        )
+
+
+def render_main_ad():
+    """Render a main content area ad for cooking/food content."""
+    if GOOGLE_ADSENSE_ENABLED:
+        render_google_ad(
+            ad_slot=os.getenv('GOOGLE_ADSENSE_MAIN_SLOT', '0987654321'),
+            ad_style="display:block;width:100%;height:90px;",
+            ad_format="horizontal"
+        )
 
 
 class RecipeApp:
@@ -127,6 +223,9 @@ class RecipeApp:
         if not self._initialize_generator():
             st.stop()
         
+        # Main ad placement - non-intrusive, cooking-related
+        render_main_ad()
+        
         # Tab navigation
         tab1, tab2, tab3, tab4 = st.tabs([
             "🆕 Luo Resepti", 
@@ -177,6 +276,10 @@ class RecipeApp:
         st.sidebar.subheader("Reseptiasetukset")
         st.session_state.include_tips = st.sidebar.checkbox("Sisällytä vinkkit", value=True)
         st.session_state.find_prices = st.sidebar.checkbox("Etsi hintatiedot", value=True)
+        
+        # Sidebar ad placement
+        with st.sidebar:
+            render_sidebar_ad()
         
         # About section
         st.sidebar.subheader("ℹ️ Tietoa")

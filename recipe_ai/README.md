@@ -35,6 +35,7 @@ An AI-powered recipe generator that uses Google Vertex AI to create recipes base
 - 📊 **Cost Analysis**: Provides cost breakdowns and price comparisons
 - 🌐 **Web Interface**: Beautiful Streamlit UI for easy interaction
 - 📱 **Mobile Friendly**: Responsive design works on all devices
+- 📺 **Non-intrusive Ads**: Optional Google AdSense integration for cooking-related advertising
 
 ## Architecture
 
@@ -87,7 +88,30 @@ Run the automated setup script:
    BIGQUERY_TABLE=your-project-id.s_kaupat.products
    VERTEX_AI_LOCATION=europe-west4
    VERTEX_AI_MODEL=gemini-1.5-pro
+   
+   # Optional: Google AdSense Configuration
+   GOOGLE_ADSENSE_ENABLED=true
+   GOOGLE_ADSENSE_CLIENT_ID=ca-pub-YOUR_PUBLISHER_ID
+   GOOGLE_ADSENSE_SIDEBAR_SLOT=1234567890
+   GOOGLE_ADSENSE_MAIN_SLOT=0987654321
    ```
+
+### Google Ads Setup (Optional)
+
+The application includes optional Google AdSense integration for non-intrusive, cooking-related advertising:
+
+1. **Apply for Google AdSense**: Get approved and obtain your Publisher ID
+2. **Create Ad Units**: Set up display ads for sidebar and main content areas
+3. **Configure Environment**: Add your AdSense details to `.env` file
+4. **Deploy**: Ads will automatically appear when enabled
+
+**Features:**
+- Maximum 2 ads per page (sidebar + main content)
+- Cooking and food-related content only
+- Clearly labeled as advertisements
+- Can be disabled by setting `GOOGLE_ADSENSE_ENABLED=false`
+
+For detailed setup instructions, see [Google Ads Implementation Guide](GOOGLE_ADS_IMPLEMENTATION.md).
 
 ## Usage
 
