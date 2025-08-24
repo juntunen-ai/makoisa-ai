@@ -17,7 +17,7 @@ This project provides:
 - **Scraper Module**: Intelligent web scraping with API-first approach
 - **Recipe AI**: Vertex AI-powered recipe generation with ingredient matching
 - **Data Pipeline**: BigQuery integration for data storage and analytics
-- **Web Interface**: Streamlit-based user interface
+- **Web Interface**: Modern React + TypeScript UI with shadcn/ui components
 - **API Server**: FastAPI REST endpoints
 
 ### Services
@@ -76,8 +76,9 @@ cp .env.example .env
 poetry run python -m scraper.main
 
 # Start web interface
-cd recipe_ai
-streamlit run ui/app.py
+cd recipe-ui
+npm install
+npm run dev
 ```
 
 ## 🔧 Usage

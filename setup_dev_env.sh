@@ -153,15 +153,15 @@ EOF
 
 chmod +x dev_api.sh
 
-# Streamlit development server script
+# React UI development server script
 cat > dev_ui.sh << 'EOF'
 #!/bin/bash
 # Start development UI server
 
-echo "🎨 Starting Recipe AI Interface (Development Mode)"
+echo "🎨 Starting Recipe UI (Development Mode)"
 export ENVIRONMENT=development
-cd recipe_ai
-poetry run streamlit run ui/app.py --server.port 8501 --server.address localhost
+cd recipe-ui
+npm run dev
 EOF
 
 chmod +x dev_ui.sh
@@ -239,7 +239,7 @@ poetry run black .
 
 # Start services individually
 poetry run uvicorn server:app --reload
-poetry run streamlit run recipe_ai/ui/app.py
+cd recipe-ui && npm run dev
 
 # Database setup
 python3 setup_dev_db.py
