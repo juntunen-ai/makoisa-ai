@@ -1,7 +1,5 @@
-# Pull Request
-
 ## Description
-Brief description of the changes made in this PR.
+Brief description of changes made in this PR.
 
 ## Type of Change
 - [ ] Bug fix (non-breaking change which fixes an issue)
@@ -11,32 +9,21 @@ Brief description of the changes made in this PR.
 - [ ] Performance improvement
 - [ ] Code refactoring
 
-## Changes Made
-- List the main changes made in this PR
-- Be specific about what was added, modified, or removed
-
 ## Testing
-- [ ] Tests have been added/updated for new functionality
-- [ ] All existing tests pass
+- [ ] Tests pass locally
 - [ ] Manual testing completed
-- [ ] Deployment tested (if applicable)
-
-## Deployment Notes
-- Any special deployment considerations
-- Environment variables or configuration changes needed
-- Database migrations required (if any)
-
-## Screenshots (if applicable)
-Add screenshots or GIFs to demonstrate the changes.
-
-## Related Issues
-Closes #(issue number)
-References #(issue number)
+- [ ] Added new tests (if applicable)
 
 ## Checklist
-- [ ] Code follows the project's style guidelines
-- [ ] Self-review of the code has been performed
-- [ ] Code is commented, particularly in hard-to-understand areas
-- [ ] Documentation has been updated
-- [ ] Changes generate no new warnings
+- [ ] My code follows the project's style guidelines
+- [ ] I have performed a self-review of my code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
 - [ ] Any dependent changes have been merged and published
+
+## Screenshots (if applicable)
+Add screenshots here if UI changes were made.
+
+## Additional Notes
+Any additional information or context about the changes.
