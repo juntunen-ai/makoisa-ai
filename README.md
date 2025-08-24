@@ -5,7 +5,7 @@ An intelligent Finnish grocery shopping and AI-powered recipe generation platfor
 ## 🎯 Overview
 
 This project provides:
-- **Store Data Scraping**: Extract store information from S-kaupat.fi
+- **Store Data Scraping**: Extract store information from web sites
 - **Product Discovery**: Scrape product data and pricing information
 - **AI Recipe Generator**: Generate recipes with ingredient matching and pricing
 - **BigQuery Integration**: Store and analyze scraped data
@@ -28,7 +28,7 @@ This project provides:
 
 ### Web Scraping
 - Multi-strategy scraping (API discovery + browser fallback)
-- Store chain detection (Prisma, S-market, Alepa, Sale, etc.)
+- Store chain detection
 - Product data extraction with pricing
 - Rate limiting and anti-detection
 - Error handling and retry mechanisms
