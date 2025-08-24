@@ -1,6 +1,6 @@
 # Commercial Module
 
-This directory contains commercial features and extensions for the S-kaupat Scraper project.
+This directory contains commercial features and extensions for the Makoisa AI project.
 
 ## 🔒 License Notice
 

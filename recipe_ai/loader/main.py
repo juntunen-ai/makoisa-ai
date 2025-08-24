@@ -1,4 +1,4 @@
-"""BigQuery loader for S-kaupat store and product data."""
+"""BigQuery loader for Makoisa AI store and product data."""
 
 import json
 import logging
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class BigQueryLoader:
     """Load scraped store data into BigQuery."""
     
-    # BigQuery table schema for S-kaupat stores
+    # BigQuery table schema for Makoisa AI stores
     TABLE_SCHEMA = [
         SchemaField("name", "STRING", mode="REQUIRED", description="Store name"),
         SchemaField("address", "STRING", mode="NULLABLE", description="Store address"),
@@ -39,7 +39,7 @@ class BigQueryLoader:
     def __init__(
         self,
         project_id: Optional[str] = None,
-        dataset_id: str = "s_kaupat",
+        dataset_id: str = "makoisa_ai",
         table_id: str = "stores",
         credentials_path: Optional[str] = None,
     ):
@@ -47,7 +47,7 @@ class BigQueryLoader:
         
         Args:
             project_id: Google Cloud project ID. If None, will be auto-detected.
-            dataset_id: BigQuery dataset ID (default: 's_kaupat')
+            dataset_id: BigQuery dataset ID (default: 'makoisa_ai')
             table_id: BigQuery table ID (default: 'stores')
             credentials_path: Path to service account JSON file. If None, uses default credentials.
         """
@@ -84,7 +84,7 @@ class BigQueryLoader:
         except Exception:
             dataset = bigquery.Dataset(self.dataset_ref)
             dataset.location = "US"  # Default location
-            dataset.description = "S-kaupat store data scraped from s-kaupat.fi"
+            dataset.description = "Makoisa AI store data scraped from s-kaupat.fi"
             
             dataset = self.client.create_dataset(dataset, timeout=30)
             logger.info(f"Created dataset {self.dataset_id}")
@@ -96,7 +96,7 @@ class BigQueryLoader:
             logger.info(f"Table {self.table_id} already exists")
         except Exception:
             table = bigquery.Table(self.table_ref, schema=self.TABLE_SCHEMA)
-            table.description = "Store data scraped from S-kaupat.fi"
+            table.description = "Store data scraped from S-kaupat.fi for Makoisa AI"
             
             table = self.client.create_table(table, timeout=30)
             logger.info(f"Created table {self.table_id}")
@@ -296,7 +296,7 @@ class ProductBigQueryLoader:
     def __init__(
         self,
         project_id: Optional[str] = None,
-        dataset_id: str = "s_kaupat",
+        dataset_id: str = "makoisa_ai",
         table_id: str = "products",
         credentials_path: Optional[str] = None,
     ):
@@ -304,7 +304,7 @@ class ProductBigQueryLoader:
         
         Args:
             project_id: Google Cloud project ID. If None, will be auto-detected.
-            dataset_id: BigQuery dataset ID (default: 's_kaupat')
+            dataset_id: BigQuery dataset ID (default: 'makoisa_ai')
             table_id: BigQuery table ID (default: 'products')
             credentials_path: Path to service account JSON file. If None, uses default credentials.
         """
@@ -341,7 +341,7 @@ class ProductBigQueryLoader:
         except Exception:
             dataset = bigquery.Dataset(self.dataset_ref)
             dataset.location = "US"  # Default location
-            dataset.description = "S-kaupat product data scraped from s-kaupat.fi"
+            dataset.description = "Makoisa AI product data scraped from s-kaupat.fi"
             
             dataset = self.client.create_dataset(dataset, timeout=30)
             logger.info(f"Created dataset {self.dataset_id}")
@@ -353,7 +353,7 @@ class ProductBigQueryLoader:
             logger.info(f"Table {self.table_id} already exists")
         except Exception:
             table = bigquery.Table(self.table_ref, schema=self.PRODUCT_TABLE_SCHEMA)
-            table.description = "Product data scraped from S-kaupat.fi"
+            table.description = "Product data scraped from S-kaupat.fi for Makoisa AI"
             
             table = self.client.create_table(table, timeout=30)
             logger.info(f"Created table {self.table_id}")
@@ -452,7 +452,7 @@ class ProductBigQueryLoader:
 def load_stores_to_bigquery(
     stores: List[Dict[str, Any]],
     project_id: Optional[str] = None,
-    dataset_id: str = "s_kaupat",
+    dataset_id: str = "makoisa_ai",
     table_id: str = "stores",
     credentials_path: Optional[str] = None,
     write_disposition: str = WriteDisposition.WRITE_APPEND,
@@ -483,7 +483,7 @@ def load_stores_to_bigquery(
 def load_products_to_bigquery(
     products: List[Dict[str, Any]],
     project_id: Optional[str] = None,
-    dataset_id: str = "s_kaupat",
+    dataset_id: str = "makoisa_ai",
     table_id: str = "products",
     credentials_path: Optional[str] = None,
     write_disposition: str = WriteDisposition.WRITE_APPEND,

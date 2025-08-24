@@ -21,7 +21,7 @@ def setup_logging(verbose: bool = False) -> None:
 @click.option('--verbose', '-v', is_flag=True, help='Enable verbose logging')
 @click.pass_context
 def cli(ctx: click.Context, verbose: bool) -> None:
-    """BigQuery loader for S-kaupat store data."""
+    """BigQuery loader for Makoisa AI store data."""
     ctx.ensure_object(dict)
     ctx.obj['verbose'] = verbose
     setup_logging(verbose)
@@ -30,7 +30,7 @@ def cli(ctx: click.Context, verbose: bool) -> None:
 @cli.command()
 @click.argument('file_path', type=click.Path(exists=True))
 @click.option('--project-id', '-p', help='Google Cloud project ID')
-@click.option('--dataset-id', '-d', default='s_kaupat', help='BigQuery dataset ID')
+@click.option('--dataset-id', '-d', default='makoisa_ai', help='BigQuery dataset ID')
 @click.option('--table-id', '-t', default='stores', help='BigQuery table ID')
 @click.option('--credentials', '-c', help='Path to service account JSON file')
 @click.option('--mode', '-m', 
@@ -114,7 +114,7 @@ def load(
 
 @cli.command()
 @click.option('--project-id', '-p', help='Google Cloud project ID')
-@click.option('--dataset-id', '-d', default='s_kaupat', help='BigQuery dataset ID')
+@click.option('--dataset-id', '-d', default='makoisa_ai', help='BigQuery dataset ID')
 @click.option('--table-id', '-t', default='stores', help='BigQuery table ID')
 @click.option('--credentials', '-c', help='Path to service account JSON file')
 @click.option('--limit', '-l', type=int, help='Limit number of results')
@@ -177,7 +177,7 @@ def query(
 
 @cli.command()
 @click.option('--project-id', '-p', help='Google Cloud project ID')
-@click.option('--dataset-id', '-d', default='s_kaupat', help='BigQuery dataset ID')
+@click.option('--dataset-id', '-d', default='makoisa_ai', help='BigQuery dataset ID')
 @click.option('--table-id', '-t', default='stores', help='BigQuery table ID')
 @click.option('--credentials', '-c', help='Path to service account JSON file')
 @click.pass_context
@@ -224,7 +224,7 @@ def info(
 
 @cli.command()
 @click.option('--project-id', '-p', help='Google Cloud project ID')
-@click.option('--dataset-id', '-d', default='s_kaupat', help='BigQuery dataset ID')
+@click.option('--dataset-id', '-d', default='makoisa_ai', help='BigQuery dataset ID')
 @click.option('--table-id', '-t', default='stores', help='BigQuery table ID')
 @click.option('--credentials', '-c', help='Path to service account JSON file')
 @click.pass_context
@@ -268,7 +268,7 @@ def setup(
 @cli.command()
 @click.argument('file_path', type=click.Path(exists=True))
 @click.option('--project-id', '-p', help='Google Cloud project ID')
-@click.option('--dataset-id', '-d', default='s_kaupat', help='BigQuery dataset ID')
+@click.option('--dataset-id', '-d', default='makoisa_ai', help='BigQuery dataset ID')
 @click.option('--table-id', '-t', default='products', help='BigQuery table ID')
 @click.option('--credentials', '-c', help='Path to service account JSON file')
 @click.option('--mode', '-m', 

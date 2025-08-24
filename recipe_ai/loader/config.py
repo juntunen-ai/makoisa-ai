@@ -8,7 +8,7 @@ class Config:
     """Configuration settings for BigQuery loader."""
     
     # Default BigQuery settings
-    DEFAULT_DATASET_ID = "s_kaupat"
+    DEFAULT_DATASET_ID = "makoisa_ai"
     DEFAULT_TABLE_ID = "stores"
     DEFAULT_LOCATION = "US"
     

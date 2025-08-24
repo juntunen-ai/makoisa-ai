@@ -63,7 +63,7 @@ For commercial licensing inquiries:
 
 **Email**: harri@juntunen.ai  
 **Organization**: juntunen-ai  
-**Subject Line**: "Commercial License Inquiry - S-kaupat Scraper"
+**Subject Line**: "Commercial License Inquiry - Makoisa AI"
 
 Please include:
 - Your company information

@@ -1,7 +1,7 @@
 [project]
-name = "s-kaupat-scraper"
+name = "makoisa-ai"
 version = "1.3.0-dev"
-description = "Web scraper for s-kaupat.fi that extracts store and product data and loads it into Google BigQuery with AI recipe generation and commercial features"
+description = "AI-powered Finnish grocery shopping and recipe platform with intelligent price matching and recipe generation"
 authors = [
     {name = "Harri Juntunen", email = "harri@juntunen.ai"}
 ]
@@ -43,11 +43,11 @@ commercial = [
 ]
 
 all = [
-    "s-kaupat-scraper[dev,commercial]"
+    "makoisa-ai[dev,commercial]"
 ]
 
 [project.scripts]
-s-kaupat-scraper = "src.main:main"
+makoisa-ai = "src.main:main"
 
 
 [build-system]

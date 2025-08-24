@@ -1,6 +1,6 @@
-# S-kaupat Scraper
+# Makoisa AI
 
-A comprehensive web scraping and AI-powered recipe generation platform for Finnish grocery stores.
+An intelligent Finnish grocery shopping and AI-powered recipe generation platform.
 
 ## 🎯 Overview
 
@@ -21,7 +21,7 @@ This project provides:
 - **API Server**: FastAPI REST endpoints
 
 ### Services
-- **S-kaupat Scraper API**: `https://s-kaupat-scraper-dfahwqncla-lz.a.run.app`
+- **Makoisa AI API**: `https://makoisa-ai-api-dfahwqncla-lz.a.run.app`
 - **AI Recipe Generator**: `https://ai-recipe-generator-dfahwqncla-uc.a.run.app`
 
 ## 🚀 Features
@@ -62,8 +62,8 @@ This project provides:
 ### Setup
 ```bash
 # Clone repository
-git clone https://github.com/juntunen-ai/s-kaupat-scraper.git
-cd s-kaupat-scraper
+git clone https://github.com/juntunen-ai/makoisa-ai.git
+cd makoisa-ai
 
 # Install dependencies
 poetry install
@@ -97,7 +97,7 @@ poetry run python -m recipe_ai.main
 ### API Usage
 ```bash
 # Get stores
-curl https://s-kaupat-scraper-dfahwqncla-lz.a.run.app/stores
+curl https://makoisa-ai-api-dfahwqncla-lz.a.run.app/stores
 
 # Generate recipe
 curl -X POST https://ai-recipe-generator-dfahwqncla-uc.a.run.app/generate-recipe \
@@ -155,7 +155,7 @@ By contributing, you grant the project maintainers the right to license your con
 ## 🔗 Links
 
 - [Live Recipe Generator](https://ai-recipe-generator-dfahwqncla-uc.a.run.app)
-- [API Documentation](https://s-kaupat-scraper-dfahwqncla-lz.a.run.app/docs)
+- [API Documentation](https://makoisa-ai-api-dfahwqncla-lz.a.run.app/docs)
 - [Google Ads Implementation Guide](GOOGLE_ADS_IMPLEMENTATION.md)
 - [Commercial Licensing](mailto:harri@juntunen.ai)
 

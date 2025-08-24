@@ -1,5 +1,5 @@
 """
-FastAPI web server for S-kaupat scraper
+FastAPI web server for Makoisa AI
 Provides REST API endpoints for scraping and BigQuery operations
 """
 
@@ -37,7 +37,7 @@ async def lifespan(app: FastAPI):
     global scraper, bq_loader
     
     # Startup
-    logger.info("Starting S-kaupat Scraper API...")
+    logger.info("Starting Makoisa AI API...")
     
     # Initialize scraper
     scraper = SKaupatScraper()
@@ -56,10 +56,10 @@ async def lifespan(app: FastAPI):
     yield
     
     # Shutdown
-    logger.info("Shutting down S-kaupat Scraper API...")
+    logger.info("Shutting down Makoisa AI API...")
 
 app = FastAPI(
-    title="S-kaupat Scraper API",
+    title="Makoisa AI API",
     description="REST API for scraping S-kaupat.fi store data and loading to BigQuery",
     version="1.0.0",
     lifespan=lifespan
@@ -69,7 +69,7 @@ app = FastAPI(
 async def root():
     """Health check endpoint"""
     return {
-        "service": "S-kaupat Scraper API",
+        "service": "Makoisa AI API",
         "version": "1.0.0",
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),

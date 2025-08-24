@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# S-kaupat Scraper Development Setup Script
+# Makoisa AI Development Setup Script
 # Version: 1.3.0-dev
 
 set -e
 
-echo "🚀 Setting up S-kaupat Scraper Development Environment v1.3.0-dev"
+echo "🚀 Setting up Makoisa AI Development Environment v1.3.0-dev"
 echo "================================================================="
 
 # Colors for output
@@ -115,7 +115,7 @@ def setup_dev_database():
         client = bigquery.Client(project=project_id)
         
         # Create development dataset
-        dataset_id = os.getenv('BIGQUERY_DATASET_ID', 's_kaupat_dev')
+        dataset_id = os.getenv('BIGQUERY_DATASET_ID', 'makoisa_ai_dev')
         dataset_ref = client.dataset(dataset_id)
         
         try:
@@ -124,7 +124,7 @@ def setup_dev_database():
         except:
             dataset = bigquery.Dataset(dataset_ref)
             dataset.location = "US"
-            dataset.description = "S-kaupat development data"
+            dataset.description = "Makoisa AI development data"
             client.create_dataset(dataset)
             print(f"✅ Created dataset {dataset_id}")
         
@@ -146,7 +146,7 @@ cat > dev_api.sh << 'EOF'
 #!/bin/bash
 # Start development API server
 
-echo "🔧 Starting S-kaupat Scraper API (Development Mode)"
+echo "🔧 Starting Makoisa AI API (Development Mode)"
 export ENVIRONMENT=development
 poetry run uvicorn server:app --reload --host localhost --port 8000
 EOF

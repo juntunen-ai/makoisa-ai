@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: s-kaupat-scraper
+  name: makoisa-ai
   annotations:
     run.googleapis.com/ingress: all
 spec:
@@ -19,18 +19,18 @@ spec:
         run.googleapis.com/execution-environment: gen2
     spec:
       # Service account for BigQuery access
-      serviceAccountName: s-kaupat-scraper@ruokahinta-scraper-1748695687.iam.gserviceaccount.com
+      serviceAccountName: makoisa-ai@ruokahinta-scraper-1748695687.iam.gserviceaccount.com
       containerConcurrency: 10
       containers:
-      - name: s-kaupat-scraper
-        image: gcr.io/ruokahinta-scraper-1748695687/s-kaupat-scraper:latest
+      - name: makoisa-ai
+        image: gcr.io/ruokahinta-scraper-1748695687/makoisa-ai:latest
         ports:
         - containerPort: 8080
         env:
         - name: GOOGLE_CLOUD_PROJECT
           value: "ruokahinta-scraper-1748695687"
         - name: BIGQUERY_DATASET_ID
-          value: "s_kaupat"
+          value: "makoisa_ai"
         - name: BIGQUERY_TABLE_ID
           value: "stores"
         - name: BIGQUERY_LOCATION
