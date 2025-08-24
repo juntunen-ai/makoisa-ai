@@ -6,7 +6,7 @@ separate licensing for commercial use.
 """
 
 # Commercial module version
-__version__ = "1.0.0"
+__version__ = "1.3.0-dev"
 
 # License notice
 __license__ = """

@@ -9,6 +9,7 @@
 .env
 .env.local
 .env.*.local
+.env.development
 
 # Python cache
 __pycache__/
@@ -108,3 +109,19 @@ commercial/config/
 commercial/keys/
 commercial/*.local
 .commercial-license
+
+# Development directories and files
+dev_data/
+dev_logs/
+dev_cache/
+dev_temp/
+test_data/
+*.dev
+.dev-*
+setup_dev_db.py
+dev_*.sh
+DEV_GETTING_STARTED.md
+
+# VS Code development settings (keep launch.json but ignore user-specific settings)
+.vscode/settings.json
+.vscode/*.log

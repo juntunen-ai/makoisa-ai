@@ -1,7 +1,7 @@
 [project]
 name = "s-kaupat-scraper"
-version = "0.1.0"
-description = "Web scraper for s-kaupat.fi that extracts store and product data and loads it into Google BigQuery"
+version = "1.3.0-dev"
+description = "Web scraper for s-kaupat.fi that extracts store and product data and loads it into Google BigQuery with AI recipe generation and commercial features"
 authors = [
     {name = "Harri Juntunen", email = "harri@juntunen.ai"}
 ]
@@ -29,7 +29,21 @@ dev = [
     "black>=23.0.0",
     "flake8>=6.0.0",
     "mypy>=1.5.0",
-    "pre-commit>=3.3.0"
+    "pre-commit>=3.3.0",
+    "jupyter>=1.0.0",
+    "notebook>=6.5.0",
+    "ipykernel>=6.15.0"
+]
+
+commercial = [
+    "streamlit>=1.28.0",
+    "google-cloud-aiplatform>=1.35.0",
+    "plotly>=5.15.0",
+    "altair>=5.0.0"
+]
+
+all = [
+    "s-kaupat-scraper[dev,commercial]"
 ]
 
 [project.scripts]
