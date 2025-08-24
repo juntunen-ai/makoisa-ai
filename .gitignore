@@ -101,3 +101,10 @@ bulk_products_*.json
 recipe_ai/.env
 recipe_ai/recipe_*.json
 recipe_ai/__pycache__/
+
+# Commercial module configuration
+commercial/.env
+commercial/config/
+commercial/keys/
+commercial/*.local
+.commercial-license
